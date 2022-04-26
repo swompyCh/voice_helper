@@ -1,7 +1,7 @@
 from gtts import gTTS
 import time
 import playsound
-# import speech_recognition as sr
+import speech_recognition as sr
 import os
 import webbrowser
 import re
@@ -11,7 +11,7 @@ from googletrans import Translator
 import random
 from termcolor import colored
 import string
-from time import monotonic
+from datetime import datetime
 
 
 def listen_command():
@@ -34,10 +34,10 @@ def listen_command():
 tbr = ('сколько', 'который', 'скажи', 'какая', 'случайное', 'рандомное')
 
 
-# def execute_command(message):
-#     for x in tbr:
-#         message = message.replace(x, "").strip()
-#     print(message)
+def execute_command(message):
+    for x in tbr:
+        message = message.replace(x, "").strip()
+
 
 
 def do_this_command(message):
@@ -101,6 +101,7 @@ def do_this_command(message):
             i = word[5]
             perevod = translator.translate(i, dest='ru')
             print(colored(perevod.text, 'blue'))
+
         elif "на английский" in result:
             word = re.split(r'( на английский слово )|( на английский фразу )|( на английский предложение )|( на английский)', result)
             i = word[5]
@@ -123,6 +124,10 @@ def do_this_command(message):
         except:
             print(colored("Неправильно указан диапазон генерации чисел!", 'blue'))
 
+    elif "время" in message:
+        current_datetime = datetime.now()
+        print("Сейчас " + str(current_datetime.hour) + ":" + str(current_datetime.minute))
+
     elif "браузер" in message:
         os.system('start chrome')
 
@@ -139,9 +144,6 @@ def do_this_command(message):
             print(colored("Выпала решка", 'blue'))
         elif flip_coin == 1:
             print(colored("Выпал орёл", 'blue'))
-
-    # elif "поставь таймер" in message or "таймер" in message:
-    #     timer
 
     elif "помощь" in message or "команды" in message:
         print(colored("Я умею следующее:" +
@@ -168,3 +170,4 @@ if __name__ == '__main__':
     while True:
         command = listen_command()
         do_this_command(command)
+        execute_command(command)
